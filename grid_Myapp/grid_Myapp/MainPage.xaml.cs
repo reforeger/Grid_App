@@ -1,10 +1,8 @@
 ﻿using System;
 using Xamarin.Forms;
 using Button = Xamarin.Forms.Button;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System.ComponentModel;
-using System.Runtime.ExceptionServices;
+
 
 namespace grid_Myapp
 {
@@ -15,13 +13,13 @@ namespace grid_Myapp
         string l;
         public MainPage()
         {
-            Res();
-            stp = 0;
+            Resi();
+            spt = 0;
         }
         Label algus, info;
         Button newGame, randomPlayer;
 
-        void Res()
+        void Resi()
         {
             Grid grid = new Grid();
             for (int j = 0; j < 3; j++)
@@ -33,8 +31,7 @@ namespace grid_Myapp
             {
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             }
-            randomPlayer.Clicked += randomPlayer_Clicked;
-            newGame = new Button
+            randomPlayer = new Button
             {
                 BackgroundColor = Color.FromHex("#7e12e3"),
                 BorderWidth = 4,
@@ -44,9 +41,11 @@ namespace grid_Myapp
             randomPlayer.Clicked += randomPlayer_Clicked;
             newGame = new Button
             {
-                BackgroundColor = Color.darkcyan,
-                border
-            }
+                BackgroundColor = Color.DarkCyan,
+                BorderWidth = 4,
+                BorderColor = Color.DarkCyan,
+                Text = "new game?"
+            };
             newGame.Clicked += newGame_Clicked;
             info = new Label
             {
@@ -68,17 +67,51 @@ namespace grid_Myapp
                         TextColor = Color.DarkCyan,
                         VerticalTextAlignment = TextAlignment.Center,
                     };
-                    zeroandcross[j, f] algus;
+                    zeroandcross[j, f] = algus;
                     l = "X";
-
+                    var tap = new TapGestureRecognizer();
+                    tap.Tapped += Tap_Tapped;
+                    grid.Children.Add(algus, j, f);
+                    algus.GestureRecognizers.Add(tap);
                 }
             }
+            grid.Children.Add(randomPlayer, 0, 3);
+            grid.Children.Add(newGame, 2, 3);
+            grid.Children.Add(info, 1, 3);
+            Content = grid;
+        }
+        private void newGame_Clicked(object sender, EventArgs e)
+        {
+            Resi();
+            chck = 0;
+            spt = 0;
+        }
+        private void Tap_Tapped(object sender, EventArgs e)
+        {
+            Label algus = sender as Label;
+            if (algus.Text == "")
+
+                if(chck % 2 == 0)
+                {
+                    randomPlayer.Text = "O";
+                    algus.Text = l;
+                    chck++;
+                    spt++;
+                }
+                else if (chck % 2 != 0)
+                {
+                    randomPlayer.Text = "X";
+                    chck++;
+                    spt++;
+                    algus.Text = "0";
+                }
+        if (checkDraw() == true)
+        {
+            DisplayAlert("End of the game")
+        }
 
 
-
-
-
-            }
+        }
 
         private void RandomPlayer_Clicked(object sender, EventArgs e)
         {
