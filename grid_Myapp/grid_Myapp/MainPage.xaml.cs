@@ -1,87 +1,88 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
-using System.Runtime.CompilerServices;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Button = Xamarin.Forms.Button;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+using System.ComponentModel;
+using System.Runtime.ExceptionServices;
 
 namespace grid_Myapp
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage
     {
-        BoxView box;
-        Button new_game, random_player;
+        Label[,] zeroandcross = new Label[3, 3];
+        string l;
         public MainPage()
         {
-            New_game_Clicked();
+            Res();
+            stp = 0;
         }
-        void New_game_Clicked()
+        Label algus, info;
+        Button newGame, randomPlayer;
+
+        void Res()
         {
-
-
-
-
             Grid grid = new Grid();
-            for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 3; j++)
             {
+                BackgroundColor = Color.DarkCyan;
                 grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            }
+            for (int f = 0; f < 3; f++)
+            {
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             }
-            for (int i = 0; i < 3; i++)
+            randomPlayer.Clicked += randomPlayer_Clicked;
+            newGame = new Button
             {
-                for (int j = 0; j < 3; j++)
-                {
-                    box = new BoxView { Color = Color.FromRgb(200, 100, 50) };
-                    grid.Children.Add(box, i, j);
-                    var tap = new TapGestureRecognizer();
-                    box.GestureRecognizers.Add(tap);
-                    tap.Tapped += Tap_Tapped;
-                }
-                       
+                BackgroundColor = Color.FromHex("#7e12e3"),
+                BorderWidth = 4,
+                BorderColor = Color.FromHex("#bde312"),
+                Text = "Who is First?"
+            };
+            randomPlayer.Clicked += randomPlayer_Clicked;
+            newGame = new Button
+            {
+                BackgroundColor = Color.darkcyan,
+                border
             }
-            new_game = new Button { Text = "New Game" };
-            grid.Children.Add(new_game, 0, 3);
-            Grid.SetColumnSpan(new_game, 2);
-            random_player = new Button { Text = "Who is first?" };
-            grid.Children.Add(random_player, 2, 3);
-            Grid.SetColumnSpan(random_player, 2);
-            Content = grid;
-        }
+            newGame.Clicked += newGame_Clicked;
+            info = new Label
+            {
+                FontSize = 20,
+                TextColor = Color.DarkCyan,
+                Text = ""
+            };
 
-        private void Tap_Tapped(object sender, EventArgs e)
+            for (int j = 0; j < 3; j++)
+            {
+                for (int f = 0; f < 3; f++)
+                {
+                    algus = new Label
+                    {
+                        BackgroundColor = Color.DarkCyan,
+                        FontSize = 100,
+                        Text = "",
+                        HorizontalTextAlignment = TextAlignment.Center,
+                        TextColor = Color.DarkCyan,
+                        VerticalTextAlignment = TextAlignment.Center,
+                    };
+                    zeroandcross[j, f] algus;
+                    l = "X";
+
+                }
+            }
+
+
+
+
+
+            }
+
+        private void RandomPlayer_Clicked(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }
-
-        /* private void Tap_Tapped(object sender, EventArgs e)
-         {
-             BoxView box = sender as BoxView;
-             box.Color = Color.FromRgb(0,0,0);
-
-         }*/
     }
 }
-/*
-                            BoxView box = sender as BoxView;
-                            if (box.Color == new Color(0, 0, 0))
-                            {
-                            box.Color = Color.FromRgb(200, 100, 50);
-                            }
-                            else
-                            {
-                                box.Color = new Color(0, 0, 0);
-                            }
-                            Image img1 = sender as image;
-                            if(img1.Source=="nolik.png")
-                            {
-                                img1.Source = "nuul.png";
-                            }
-                            else
-                            {
-                                img1.Source = "krest.png";
-                            }
-                            */
