@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using System.Windows.UI.Xaml;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Button = Xamarin.Forms.Button;
@@ -24,28 +23,6 @@ namespace grid_Myapp
         {
 
 
-            /*
-            {
-                RowDefinitions=
-                {
-                    
-                    new RowDefinition{Height=new GridLength(1,GridUnitType.Star)},
-                    new RowDefinition{Height=new GridLength(1,GridUnitType.Star)},
-                    new RowDefinition{Height=new GridLength(1,GridUnitType.Star)},
-                    new RowDefinition{Height=new GridLength(1,GridUnitType.Star)},
-                    new RowDefinition{Height=new GridLength(1,GridUnitType.Star)}
-                },
-                ColumnDefinitions=
-                {
-                    new ColumnDefinition{Width=new GridLength(1,GridUnitType.Star)},
-                    new ColumnDefinition{Width=new GridLength(1,GridUnitType.Star)},
-                    new ColumnDefinition{Width=new GridLength(1,GridUnitType.Star)},
-                    new ColumnDefinition{Width=new GridLength(1,GridUnitType.Star)},
-                    new ColumnDefinition{Width=new GridLength(1,GridUnitType.Star)}
-                }
-               
-
-            };*/
 
 
             Grid grid = new Grid();
