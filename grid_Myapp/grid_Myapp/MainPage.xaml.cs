@@ -13,18 +13,18 @@ namespace grid_Myapp
         string l;
         public MainPage()
         {
-            Resi();
-            spt = 0;
+            Reset();
+            stps = 0;
         }
-        Label algus, info;
+        Label stat, info;
         Button newGame, randomPlayer;
 
-        void Resi()
+        void Reset()
         {
             Grid grid = new Grid();
-            for (int j = 0; j < 3; j++)
+            for (int g = 0; g < 3; g++)
             {
-                BackgroundColor = Color.DarkCyan;
+                BackgroundColor = Color.LightGray;
                 grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             }
             for (int f = 0; f < 3; f++)
@@ -33,46 +33,52 @@ namespace grid_Myapp
             }
             randomPlayer = new Button
             {
-                BackgroundColor = Color.FromHex("#7e12e3"),
-                BorderWidth = 4,
-                BorderColor = Color.FromHex("#bde312"),
-                Text = "Who is First?"
+                BackgroundColor = Color.BurlyWood,
+                BorderWidth = 2,
+                BorderColor = Color.Gray,
+                FontSize = 25,
+                Text = "Change Course",
+                TextColor = Color.White
             };
             randomPlayer.Clicked += randomPlayer_Clicked;
             newGame = new Button
             {
-                BackgroundColor = Color.DarkCyan,
-                BorderWidth = 4,
-                BorderColor = Color.DarkCyan,
-                Text = "new game?"
+                BackgroundColor = Color.BurlyWood,
+                BorderWidth = 2,
+                BorderColor = Color.Gray,
+                FontSize = 25,
+                Text = "New Game",
+                TextColor = Color.White
             };
             newGame.Clicked += newGame_Clicked;
             info = new Label
             {
-                FontSize = 20,
-                TextColor = Color.DarkCyan,
-                Text = ""
+                FontSize = 30,
+                TextColor = Color.Gray,
+                Text = "",
+                HorizontalTextAlignment = TextAlignment.Center,
+                VerticalTextAlignment = TextAlignment.Center
             };
 
-            for (int j = 0; j < 3; j++)
+            for (int i = 0; i < 3; i++)
             {
-                for (int f = 0; f < 3; f++)
+                for (int j = 0; j < 3; j++)
                 {
-                    algus = new Label
+                    stat = new Label
                     {
-                        BackgroundColor = Color.DarkCyan,
-                        FontSize = 100,
+                        BackgroundColor = Color.Gray,
+                        FontSize = 120,
                         Text = "",
                         HorizontalTextAlignment = TextAlignment.Center,
-                        TextColor = Color.DarkCyan,
+                        TextColor = Color.LightGray,
                         VerticalTextAlignment = TextAlignment.Center,
                     };
-                    zeroandcross[j, f] = algus;
+                    zeroandcross[i, j] = stat;
                     l = "X";
                     var tap = new TapGestureRecognizer();
                     tap.Tapped += Tap_Tapped;
-                    grid.Children.Add(algus, j, f);
-                    algus.GestureRecognizers.Add(tap);
+                    grid.Children.Add(stat, i, j);
+                    stat.GestureRecognizers.Add(tap);
                 }
             }
             grid.Children.Add(randomPlayer, 0, 3);
@@ -82,40 +88,179 @@ namespace grid_Myapp
         }
         private void newGame_Clicked(object sender, EventArgs e)
         {
-            Resi();
+            Reset();
             chck = 0;
-            spt = 0;
+            stps = 0;
         }
         private void Tap_Tapped(object sender, EventArgs e)
         {
-            Label algus = sender as Label;
-            if (algus.Text == "")
+            Label stat = sender as Label;
+            if (stat.Text == "")
 
-                if(chck % 2 == 0)
+                if (chck % 2 == 0)
                 {
-                    randomPlayer.Text = "O";
-                    algus.Text = l;
+                    info.Text = "Zero Move";
+                    stat.Text = l;
                     chck++;
-                    spt++;
+                    stps++;
                 }
                 else if (chck % 2 != 0)
                 {
-                    randomPlayer.Text = "X";
+                    info.Text = "Cross Stroke";
                     chck++;
-                    spt++;
-                    algus.Text = "0";
+                    stps++;
+                    stat.Text = "0";
                 }
-        if (checkDraw() == true)
-        {
-            DisplayAlert("End of the game")
+
+            if (checkDraw() == true)
+            {
+                DisplayAlert("End Of The Game", wnr, "New Game");
+                stps = 0;
+            }
+
+            else if (checkWinnerY() == true)
+            {
+                DisplayAlert("End Of The Game", wnr, "New Game");
+            }
+            else if (checkWinnerX() == true)
+            {
+                DisplayAlert("End Of The Game", wnr, "New Game");
+            }
         }
-
-
-        }
-
-        private void RandomPlayer_Clicked(object sender, EventArgs e)
+        bool checkDraw() //Проверка на ничью
         {
-            throw new NotImplementedException();
+            if (stps == 9)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        string wnr = "";
+        bool checkWinnerX()
+        {
+            if (zeroandcross[0, 0].Text == "X" && zeroandcross[1, 0].Text == "X" && zeroandcross[2, 0].Text == "X")
+            {
+                wnr = "Cross Won";
+                return true; ;
+            }
+            else if (zeroandcross[0, 1].Text == "X" && zeroandcross[1, 1].Text == "X" && zeroandcross[2, 1].Text == "X")
+            {
+                wnr = "Cross Won";
+                return true;
+            }
+            else if (zeroandcross[0, 2].Text == "X" && zeroandcross[1, 2].Text == "X" && zeroandcross[2, 2].Text == "X")
+            {
+                wnr = "Cross Won";
+                return true;
+            }
+            else if (zeroandcross[0, 0].Text == "0" && zeroandcross[1, 0].Text == "0" && zeroandcross[2, 0].Text == "0")
+            {
+                wnr = "Zero Won";
+                return true; ;
+            }
+            else if (zeroandcross[0, 1].Text == "0" && zeroandcross[1, 1].Text == "0" && zeroandcross[2, 1].Text == "0")
+            {
+                wnr = "Zero Won";
+                return true;
+            }
+            else if (zeroandcross[0, 2].Text == "0" && zeroandcross[1, 2].Text == "0" && zeroandcross[2, 2].Text == "0")
+            {
+                wnr = "Zero Won";
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        bool checkWinnerY()
+        {
+
+            if (zeroandcross[0, 0].Text == "X" && zeroandcross[0, 1].Text == "X" && zeroandcross[0, 2].Text == "X")
+            {
+                wnr = "Cross Won";
+                return true; ;
+            }
+
+            else if (zeroandcross[1, 0].Text == "X" && zeroandcross[1, 1].Text == "X" && zeroandcross[1, 2].Text == "X")
+            {
+                wnr = "Cross Won";
+                return true;
+            }
+
+            else if (zeroandcross[2, 0].Text == "X" && zeroandcross[2, 1].Text == "X" && zeroandcross[2, 2].Text == "X")
+            {
+                wnr = "Cross Won";
+                return true;
+            }
+
+            else if (zeroandcross[0, 0].Text == "0" && zeroandcross[0, 1].Text == "0" && zeroandcross[0, 2].Text == "0")
+            {
+                wnr = "Zero Won";
+                return true; ;
+            }
+
+            else if (zeroandcross[1, 0].Text == "0" && zeroandcross[1, 1].Text == "0" && zeroandcross[1, 2].Text == "0")
+            {
+                wnr = "Zero Won";
+                return true;
+            }
+
+            else if (zeroandcross[2, 0].Text == "0" && zeroandcross[2, 1].Text == "X" && zeroandcross[2, 2].Text == "0")
+            {
+                wnr = "Zero Won";
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        bool checkWinnerXY()
+        {
+            if (zeroandcross[0, 0].Text == "X" && zeroandcross[1, 1].Text == "X" && zeroandcross[2, 2].Text == "X")
+            {
+                wnr = "Cross Won";
+                return true; ;
+            }
+            else if (zeroandcross[2, 0].Text == "X" && zeroandcross[1, 1].Text == "X" && zeroandcross[0, 2].Text == "X")
+            {
+                wnr = "Cross Won";
+                return true;
+            }
+            else if (zeroandcross[0, 0].Text == "0" && zeroandcross[1, 1].Text == "0" && zeroandcross[2, 2].Text == "0")
+            {
+                wnr = "Zero Won";
+                return true; ;
+            }
+            else if (zeroandcross[2, 0].Text == "0" && zeroandcross[1, 1].Text == "0" && zeroandcross[0, 2].Text == "0")
+            {
+                wnr = "Zero Won";
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        int stps = 0;
+
+        Random strt = new Random();
+        int chck = 0;
+        private void randomPlayer_Clicked(object sender, EventArgs e)
+        {
+            chck = strt.Next(0, 2);
+            if (chck % 2 == 0)
+            {
+                info.Text = "Cross Stroke";
+            }
+            else if (chck % 2 != 0)
+            {
+                info.Text = "Zero Move";
+            }
         }
     }
 }
